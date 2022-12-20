@@ -1,0 +1,8 @@
+services:
+  smacc2:
+    build: ./smacc2
+    container_name: smacc2
+  turtlebot3:
+    build: ./turtlebot3
+    container_name: turtlebot3
+version: '3.3'

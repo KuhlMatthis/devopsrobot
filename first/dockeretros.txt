@@ -1,0 +1,19 @@
+docker build -t imagename .   (buildx)
+docker run --net=host --env="DISPLAY" --name ros2 -it ros:latest /bin/bash
+
+strace cmd (savoir les acces de fichier)
+
+--user autant que utilisateur
+(https://hub.docker.com/_/ros/)
+docker images -a (renvois tous les image accesible)
+docker run -it --name containername Repository:Tag
+docker ps -a (renvois tous les container accesible)
+docker rename containernamenow tocontanername
+docker start containername
+docker stop containername
+docker exec -it containername bash (execute bash)
+
+
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+(echo "export ROS_DOMAIN_ID=<your_domain_id>" >> ~/.bashrc,echo "export ROS_LOCALHOST_ONLY=1" >> ~/.bashrc)
+ 
