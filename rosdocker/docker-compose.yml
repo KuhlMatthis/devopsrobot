@@ -1,4 +1,8 @@
 services:
+  webbots:
+    image:
+    environment:
+      - DISPLAY
   smacc2:
     build: ./smacc2
     container_name: smacc2
