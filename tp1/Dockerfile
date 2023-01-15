@@ -13,18 +13,18 @@ RUN apt-get install -y ros-noetic-joy ros-noetic-teleop-twist-joy \
     ros-noetic-compressed-image-transport ros-noetic-rqt* ros-noetic-rviz \
     ros-noetic-gmapping ros-noetic-navigation ros-noetic-interactive-markers \
     ros-noetic-dynamixel-sdk ros-noetic-turtlebot3-msgs ros-noetic-turtlebot3
-# doesn't work yet, this is giving the compter's ip instead of the container's
-RUN ipaddress=$(hostname -i) &&\
+CMD ipaddress=$(hostname -i) &&\
     echo "export ROS_MASTER_URI=http://$ipaddress:11311" >> ~/.bashrc &&\
     echo "export ROS_HOSTNAME=$ipaddress" >> ~/.bashrc &&\
-    source ~/.bashrc
+    source ~/.bashrc &&\
+    bash
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 #docker build . -t turtlebot
-#docker run -it -d --name turtle turtlebot bash
+#docker run -it -d --name turtle
 
 #start ros container with ros master active:
 #docker run -it --net=host turtlebot roscore
 #start ros container (new terminal):
-#docker run -it --net=host turtlebot bash
+#docker run -it --net=host turtlebot
 #rostopic list dans le bash pour voir les topic
