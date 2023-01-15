@@ -22,10 +22,7 @@ CMD ipaddress=$(hostname -i) &&\
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 #docker build . -t turtlebot
-#docker run -it -d --name turtle
-
-#start ros container with ros master active:
-#docker run -it --net=host turtlebot roscore
-#start ros container (new terminal):
 #docker run -it --net=host turtlebot
-#rostopic list dans le bash pour voir les topic
+#containeur 1 terminal 1: roscore 
+#containeur 1 terminal 2: rostopic pub -r 1 /my_topic std_msgs/String '{data: "hello"}'
+#containeur 2 terminal 1: rostopic echo /my_topic
