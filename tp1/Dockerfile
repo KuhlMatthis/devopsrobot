@@ -16,6 +16,7 @@ RUN apt-get install -y ros-noetic-joy ros-noetic-teleop-twist-joy \
 CMD ipaddress=$(hostname -i) &&\
     echo "export ROS_MASTER_URI=http://$ipaddress:11311" >> ~/.bashrc &&\
     echo "export ROS_HOSTNAME=$ipaddress" >> ~/.bashrc &&\
+    source ros_entrypoint.sh &&\
     source ~/.bashrc &&\
     bash
 ENTRYPOINT ["/ros_entrypoint.sh"]
