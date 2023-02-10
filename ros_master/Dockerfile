@@ -1,5 +1,6 @@
 FROM ros:noetic
 ENV DEBIAN_FRONTEND=noninteractive
+
 SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y net-tools
@@ -21,8 +22,22 @@ CMD ipaddress=$(hostname -i) &&\
     bash
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
+####################################################
+###COMMANDES:
 #docker build . -t turtlebot
 #docker run -it --net=host turtlebot
 #containeur 1 terminal 1: roscore 
 #containeur 1 terminal 2: rostopic pub -r 1 /my_topic std_msgs/String '{data: "hello"}'
 #containeur 2 terminal 1: rostopic echo /my_topic
+
+####################################################
+###TODO:
+#connecter ce docker avec robot
+#lancer programme ros depuis docker pour piloter le robot
+#créer dossier contenant le programme ROS et le copier et lancer automatiquement dans le docker
+#créer docker traducteur faisant le lien entre docker ROS et Webots tcp/ip
+#yaml permettant le lancement de tout d'un coup
+#github workflow pour automatiser cette démarche à chaque push
+#mettre en avant  l'aspect microservice des controlleurs et rendre leur ajout/modification/suppression dynamique
+
+####################################################
