@@ -10,6 +10,7 @@ RUN apt-get install -y ros-foxy-gazebo-* ros-foxy-cartographer ros-foxy-cartogra
 RUN source ~/.bashrc
 RUN apt-get install -y ros-foxy-dynamixel-sdk ros-foxy-turtlebot3-msgs ros-foxy-turtlebot3
 CMD echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc &&\
+    echo 'export TURTLEBOT3_MODEL=burger' >> ~/.bashrc &&\
     source ros_entrypoint.sh &&\
     source ~/.bashrc &&\
     bash
