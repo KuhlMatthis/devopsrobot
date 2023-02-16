@@ -2,38 +2,34 @@ FROM ros:foxy
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
+
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y net-tools
+
 # install the needed packages for the ros master for the turtlebot burger 3
 RUN apt-get install -y ros-foxy-gazebo-* ros-foxy-cartographer ros-foxy-cartographer-ros \
     ros-foxy-navigation2 ros-foxy-nav2-bringup
 RUN source ~/.bashrc
 RUN apt-get install -y ros-foxy-dynamixel-sdk ros-foxy-turtlebot3-msgs ros-foxy-turtlebot3
-CMD echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc &&\
-    echo 'export TURTLEBOT3_MODEL=burger' >> ~/.bashrc &&\
-    source ros_entrypoint.sh &&\
-    source ~/.bashrc &&\
-    bash
+RUN apt-get install -y ros-foxy-turtlebot3-gazebo
+
+ENV ROS_DOMAIN_ID=30
+ENV export TURTLEBOT3_MODEL=burger
+
+CMD ros2 run turtlebot3_gazebo turtlebot3_drive
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 ####################################################
 
-###COMMANDES:
-#docker build . -t turtlebotfoxy
-#docker run -it --net=host turtlebotfoxy
-#containeur 1 terminal 1: roscore 
-#containeur 1 terminal 2: rostopic pub -r 1 /my_topic std_msgs/String '{data: "hello"}'
-#containeur 2 terminal 1: rostopic echo /my_topic
+###ROS CONTROLLEUR:
+#necessite docker sur pc
+# sudo docker build . -t turtlebotfoxy
+# sudo docker run -it turtlebotfoxy
 
-####################################################
-
-###TODO:
-#connecter ce docker avec robot
-#lancer programme ros depuis docker pour piloter le robot
-#créer dossier contenant le programme ROS et le copier et lancer automatiquement dans le docker
-#créer docker traducteur faisant le lien entre docker ROS et Webots tcp/ip
-#yaml permettant le lancement de tout d'un coup
-#github workflow pour automatiser cette démarche à chaque push
-#mettre en avant  l'aspect microservice des controlleurs et rendre leur ajout/modification/suppression dynamique
-
-####################################################
+###SIMULATION:
+#necessite ros2, gazebo et packages (https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#gazebo-simulation)
+# source /opt/ros/foxy/setup.bash
+# source ~/.bashrc
+# export TURTLEBOT3_MODEL=burger
+# export ROS_DOMAIN_ID=30
+# ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
