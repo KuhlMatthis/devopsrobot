@@ -6,17 +6,21 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y net-tools
 
+ADD /ros2_basics /ros2_basics
+
 # install the needed packages for the ros master for the turtlebot burger 3
-RUN apt-get install -y ros-foxy-gazebo-* ros-foxy-cartographer ros-foxy-cartographer-ros \
-    ros-foxy-navigation2 ros-foxy-nav2-bringup
-RUN source ~/.bashrc
-RUN apt-get install -y ros-foxy-dynamixel-sdk ros-foxy-turtlebot3-msgs ros-foxy-turtlebot3
-RUN apt-get install -y ros-foxy-turtlebot3-gazebo
+#RUN source ~/.bashrc
+#RUN apt-get install -y ros-foxy-turtlebot3-gazebo
 
 ENV ROS_DOMAIN_ID=30
 ENV export TURTLEBOT3_MODEL=burger
 
-CMD ros2 run turtlebot3_gazebo turtlebot3_drive
+RUN cd /ros2_basics/cpp_topic &&\ 
+    rosdep install -i --from-path src --rosdistro foxy -y &&\
+    colcon build --packages-select cpp_topic &&\
+    . install/setup.bash
+
+CMD ros2 run cpp_topic cpp_topic_publisher_spiral
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 ####################################################
