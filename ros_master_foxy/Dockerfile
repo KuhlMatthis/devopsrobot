@@ -1,4 +1,4 @@
-FROM ros:foxy
+FROM arm64v8/ros:foxy
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
@@ -9,8 +9,6 @@ RUN apt-get install -y net-tools
 ADD /ros2_basics /ros2_basics
 
 # install the needed packages for the ros master for the turtlebot burger 3
-#RUN source ~/.bashrc
-#RUN apt-get install -y ros-foxy-turtlebot3-gazebo
 
 ENV ROS_DOMAIN_ID=30
 ENV export TURTLEBOT3_MODEL=burger
