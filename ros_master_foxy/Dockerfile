@@ -1,4 +1,4 @@
-FROM ros:foxy
+FROM arm64v8/ros:foxy
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]

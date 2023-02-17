@@ -52,4 +52,4 @@ jobs:
           tags: matthisdockers/test:latest,matthisdockers/test:${{github.run_number}}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/arm64/v8
