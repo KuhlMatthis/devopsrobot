@@ -1,4 +1,4 @@
-FROM ros:foxy
+FROM arm64v8/ros:foxy
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
@@ -7,10 +7,10 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y net-tools
 
 # install the needed packages for the ros master for the turtlebot burger 3
-RUN apt-get install -y ros-foxy-gazebo-* ros-foxy-cartographer ros-foxy-cartographer-ros \
-    ros-foxy-navigation2 ros-foxy-nav2-bringup
+#RUN apt-get install -y ros-foxy-gazebo-* ros-foxy-cartographer ros-foxy-cartographer-ros \
+#    ros-foxy-navigation2 ros-foxy-nav2-bringup
 RUN source ~/.bashrc
-RUN apt-get install -y ros-foxy-dynamixel-sdk ros-foxy-turtlebot3-msgs ros-foxy-turtlebot3
+#RUN apt-get install -y ros-foxy-dynamixel-sdk ros-foxy-turtlebot3-msgs ros-foxy-turtlebot3
 RUN apt-get install -y ros-foxy-turtlebot3-gazebo
 
 ENV ROS_DOMAIN_ID=30
