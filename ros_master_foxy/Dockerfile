@@ -1,4 +1,4 @@
-FROM arm64v8/ros:foxy
+FROM ros:foxy
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
@@ -8,17 +8,19 @@ RUN apt-get install -y net-tools
 
 ADD /ros2_basics /ros2_basics
 
-# install the needed packages for the ros master for the turtlebot burger 3
+RUN source ~/.bashrc
+RUN source /opt/ros/foxy/setup.bash
 
 ENV ROS_DOMAIN_ID=30
 ENV export TURTLEBOT3_MODEL=burger
 
-RUN cd /ros2_basics/cpp_topic &&\ 
-    rosdep install -i --from-path src --rosdistro foxy -y &&\
-    colcon build --packages-select cpp_topic &&\
-    . install/setup.bash
+RUN cd ros2_basics/cpp_topic && rosdep install -i --from-path src --rosdistro foxy -y
+RUN . /opt/ros/foxy/setup.sh &&\
+    cd ros2_basics/cpp_topic && colcon build --packages-select cpp_topic
 
-CMD ros2 run cpp_topic cpp_topic_publisher_spiral
+CMD cd ros2_basics/cpp_topic && . install/setup.bash &&\
+    ros2 run cpp_topic cpp_topic_publisher_spiral
+
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 ####################################################
