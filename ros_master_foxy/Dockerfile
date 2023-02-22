@@ -29,7 +29,7 @@ ENTRYPOINT ["/ros_entrypoint.sh"]
 
 ###ROS CONTROLLEUR:
 #necessite docker sur pc
-# sudo docker build . -t turtlebotfoxy
+# sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy .
 # sudo docker run -it turtlebotfoxy
 
 ###SIMULATION:
