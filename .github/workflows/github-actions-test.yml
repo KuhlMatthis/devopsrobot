@@ -34,9 +34,7 @@ jobs:
       
       - name: Build an image from Dockerfile
         run: sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy ./ros_master_foxy
-        with: 
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        
       - name: Get Trivy CVES image analyse with securtiy vulnerability for the image
         uses: aquasecurity/trivy-action@master
         with:
