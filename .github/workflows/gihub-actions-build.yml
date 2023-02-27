@@ -1,11 +1,10 @@
-name: 01 Basic Docker Build
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Docker push image
+run-name: ${{ github.actor }} is pushing the img to dockerhub
 
 on:
   push:
     branches:
       - main
-      - test1
   pull_request:
 
 

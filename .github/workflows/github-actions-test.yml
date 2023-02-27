@@ -1,0 +1,15 @@
+name: Docker testing image
+run-name: ${{ github.actor }} is testing the docker image
+
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+
+jobs:
+  test-image:
+    name: Test docker image
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "im running tests"

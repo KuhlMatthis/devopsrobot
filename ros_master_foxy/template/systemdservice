@@ -1,0 +1,11 @@
+#at /etc/systemd/system/robot.service
+[Unit]
+Description= Run robot hardwaire
+
+[Service]
+Type=simple
+ExecStart=/opt/ros/foxy/bin/ros2 launch turtlebot3_bringup robot.launch.py
+EnvironmentFile=/home/ubuntu/script/ros
+
+[Install]
+WantedBy=multi-user.target
