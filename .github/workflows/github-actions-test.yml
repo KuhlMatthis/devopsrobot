@@ -34,7 +34,9 @@ jobs:
       
       - name: Build an image from Dockerfile
         run: sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy ./ros_master_foxy
-      
+        with: 
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Get Trivy CVES image analyse with securtiy vulnerability for the image
         uses: aquasecurity/trivy-action@master
         with:
@@ -54,7 +56,7 @@ jobs:
           output: 'trivy-results.sarif'
       
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
