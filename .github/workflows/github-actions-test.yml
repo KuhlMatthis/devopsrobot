@@ -11,6 +11,11 @@ jobs:
   test-image:
     name: Test docker image
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -30,11 +35,27 @@ jobs:
       - name: Build an image from Dockerfile
         run: sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy ./ros_master_foxy
       
-      - name: Run Trivy for all CVEs (non-blocking)
+      - name: Get Trivy CVES image analyse with securtiy vulnerability for the image
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: turtlebotfoxy
           exit-code: 0
           format: table
       
+      - name: Get High security vulnerability and export it !!!
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: turtlebotfoxy
+          exit-code: 1
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
 
