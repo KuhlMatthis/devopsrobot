@@ -3,7 +3,7 @@
 
 ## Partie turtlebot:
 
-##  Utilisation de l'Image
+###  Utilisation de l'Image
 
 Vous pouvez récuperer l'image de la carte raspberry du turtlebot utiliser dans notre projet
 à l'adresse suivant:  https://drive.google.com/file/d/131MRJGBEvVxsQqDuKMeZVtstDKENaFzl/view.
@@ -83,16 +83,23 @@ Lorsque votre robot est directement connecter à votre réseaux vue que foxy utl
 La variable ROS_HOSTNAME sur le robot et dans le docker est de base à 30 mais vous pouvez le modifier.
 Pour le robot dans le fichier ~/.bashrc.
 pour verifier la varible ```echo $ROS_HOSTNAME```
-Et dans le docker dansn le dockerfile ligne 16: ENV ROS_DOMAIN_ID=30
+Et dans le docker dans le dockerfile ligne 16: ENV ROS_DOMAIN_ID=30
 
 
-Il existe deux branch dans ce projet le main qui est la publication.
+Il existe deux branch dans ce projet le main qui pour la publication
 et le test qui est la vérification. Lorsque un code est push sur l'un de c'est deux topic les action github ce trouvans dans le dosier
 .github\workflows sont executer.
 github-action-build.yml pour le push sur le main.
 et github-actions-test.yml pour un push sur la branch test.
 
 Si nous regardons c'est gihtub actions de plus près:
+
+### github-action-test branch test
+
+Lorsque vous pushez sur test vous pouvez observer le bilan de Trivy CVES image analyse de l'image docker de votre projet.
+Celle si sont visible si aucun risque High ou Critical. Dans le github du projet sous action séléctioner l'action avec le #numero corréspondant à votre push (souvant le dernier).
+Puis dans 'Test docker image' et l'angle: 'Get Trivy CVES image analyse with securtiy vulnerability for the image' vous avez tous le bilan.
+Si il existe des problème de sécurité reporter HIGH or CRITICAL il est fortment déconseille de push le code sur la branche main !
 
 ### github-action-build branch main
 Une des actions est de s'inscrir dans docker hub afin de pouvoir push des image dessus
@@ -122,10 +129,9 @@ pour le lancement qu'une ligne à change dans /etc/rc.local (après le first boo
 docker run --rm --name control [secrets.DOCKERHUB_USERNAME]/[tag name (test)]:latest > /home/ubuntu/output.txt 2>&1 &
 ```
 
-### github-action-test branch test
 
-Lorsque vous pushez sur test vous pouvez observer le bilan de Trivy CVES image analyse de l'image docker de votre projet.
-Celle si sont visible si aucun risque High ou Critical. Dans le github du projet sous action séléctioner l'action avec le #numero corréspondant à votre push (souvant le dernier).
-Puis dans 'Test docker image' et l'angle: 'Get Trivy CVES image analyse with securtiy vulnerability for the image' vous avez tous le bilan.
-Si il existe des problème de sécurité reporter HIGH or CRITICAL il est fortment déconseille de push le code sur la branche main !
+## Conclusion
 
+Conclusion votre projet robotique en mode devops pour du turtlebot est près.
+Si vous etes intéréssé à construire un projet ressemblant sur un autre robot ou systeme vous pouvez regarder de plus proche les détaille de créaation image et les fichier turtlebot_temporaire.
+Pour améliorer ce projet il est intérésant de rajouter des test automatique dans le github action branche test et surtous à réussir le lancement ros2 hardwaire sur la Raspberry Pi de maniere automatique. Nous avons ouvert un issue à ce sujet et sont prénon de toute participation.
