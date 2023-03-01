@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-
 
 jobs:
   Explore-GitHub-Actions:
@@ -48,7 +46,7 @@ jobs:
         with:
           context: ./ros_master_foxy
           push: True
-          tags: matthisdockers/test:latest,matthisdockers/test:${{github.run_number}}
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/test:latest, ${{secrets.DOCKERHUB_USERNAME}}/test:${{github.run_number}}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/arm64/v8
