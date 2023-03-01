@@ -3,20 +3,20 @@
 
 ## Partie turtlebot:
 
-###  Utilisation de l'Image
+###  Utilisation de l'image
 
-Vous pouvez récuperer l'image de la carte raspberry du turtlebot utiliser dans notre projet
-à l'adresse suivant:  https://drive.google.com/file/d/131MRJGBEvVxsQqDuKMeZVtstDKENaFzl/view.
-Cette image à l'avantage d'avoir d'étre exactement l'etat actuelle de notre projet.
-Puis avec outil préferer le charger sur le robot:
-Dans notre cas nous utilisant Pi Imager c'est l'utile le plus récent est très simple d'utlisation.
-Il y a juste à charger directment le fichier zip de l'image télécharger puis séléctioner la carte et clické sur write.
-Les options spécifique sur cette image ne vous serrons dans le cas actuelle d'aucune utilité puisque non implementé sur l'image de base de turtlebot.
+Vous pouvez récupérer l'image pour la Raspberry Pi du turtlebot utilisée dans notre projet
+à l'adresse suivante :  https://drive.google.com/file/d/131MRJGBEvVxsQqDuKMeZVtstDKENaFzl/view.
+Cette image a l'avantage d'être exactement dans l'état actuel de notre projet.
+Cette image sera, avec votre outil préféré, chargée sur la carte ssd de la Raspberry Pi:
+Dans notre projet nous avons utilisé Pi Imager qui est l'outil le plus récent et très simple d'utilisation.
+Il suffit de sélectionner directement le fichier zip de l'image téléchargée puis sélectionner la carte et cliquer sur write.
+Les options spécifiques sur cette image ne vous seront actuellement d'aucune utilité puisqu'ils ne sont pas implémentés sur l'image de base de turtlebot.
 
-Lorsque l'image est charger sur la carte ssd vous pouvez lancé le robot.
-Avec docker ps vous devriez apercevoir un contenaire docker tourné c'est le conteneur ros final de votre projet.
-La toute premiere fois je vous pris de lancé :
+Lorsque l'image est chargée sur la carte ssd vous pouvez lancer le robot.
+Avec docker ps vous devriez aperçevoir un conteneur docker tourner, c'est le conteneur ros du projet créé.
 
+La toute première fois pour la mise à jour automatique des conteneurs vous pouvez utiliser watchtower avec par exemple cette commande:
 ```BASH
 docker run -d \
     --name watchtower \
@@ -26,22 +26,21 @@ docker run -d \
     --interval 3600
 ```
 
-watchtower est un conteneur permettant de mettre automatiquement ajours les images et relancant les conteneurs dépendant avec la même command. 
-La specification --restart permet à le relancé à chaque alumage du robot.
-Vous pouvez alors librement choisir un interval de mise à jours des images docker sur nle robot.
-Remarquans qu'on interval très rapide petis considérablement augement le network trafic.
+Watchtower est un conteneur permettant de mettre automatiquement à jour les images et relançant les conteneurs dépendant de cette image avec la même commande que celle avec laquelle ils ont été lancés la première fois. 
+La spécification --restart permet à le relancer à chaque allumage du robot.
+Vous pouvez alors librement choisir un --interval de mise à jour des images docker sur le robot.
+Remarquons qu'un intervalle très rapide donc petit augmente considérablement le network trafic.
 
-Pour demarer le robot :
+Pour démarrer le robot :
 ```BASH
 ros2 launch turtlebot3_bringup robot.launch.py
 ```
-Nous avons éssayer de meme automatiser cette command qui est la seule à devoir etre lancé à chaque fois.
-Pour plus de détaille regarder le Readme de turtlebot_fichier_temp
+Nous avons aussi essayé d'automatiser cette commande qui est la seule à devoir être lancée à chaque fois.
+Pour plus de détails voir le Readme de turtlebot_fichier_temp
 
-### Network configuration
+### Configuration du Network
  
-La configuration de réseaux est configurer par le fichier:
-
+Le réseau est configuré par le fichier :
 /etc/netplan/50-cloud-init.yaml
 ```yaml
 network:
@@ -61,48 +60,46 @@ network:
 
 ## Project workflow
 
-### Developement du projet est test local ou sur le robot
+### Développement du projet et test local ou sur le robot
 
-Pour tester votre projet vous pouvez placer ou modifier le docier src dans ros_master_foxy/ros2_basics/cpp_topic ceci est votre projet ros.
-Il n'est pas nécésaire de builder le projet le fichier docker son ocupe.
+Pour tester votre projet vous pouvez placer ou modifier le dossier src dans ros_master_foxy/ros2_basics/cpp_topic ceci est votre projet ros.
+Il n'est pas nécessaire de builder le projet, le fichier docker s'en occupe.
 
-Pour lancé le projet ros depuis le dosier ros_master_foxy: 
-Vous pouvez builder le projet avec:
+Pour lancer le projet ros depuis le dossier ros_master_foxy: 
+Vous pouvez builder l'image docker avec:
 ```
 sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy . 
 ```
-puis le lancer:
+puis lancer un conteneur de cette image:
 ```
 sudo docker run -it turtlebotfoxy
 ```
-Après rien ne vous oblige de l'utiliser.
-Dans ce repartopir vous avez aussi un script de lancement:
-simulationtest.sh qui lance automatiquement  turtlebot3_gazebo et le contenaire docker.
+Ceci étant rien ne vous oblige à vous en servir.
+Dans ce répertoire vous avez aussi un script de lancement:
+simulationtest.sh qui lance automatiquement turtlebot3_gazebo et le conteneur docker.
 
-Lorsque votre robot est directement connecter à votre réseaux vue que foxy utlise Du ddsfastest(multicast) vous pourez directement le tester aussi sur le robot.
-La variable ROS_HOSTNAME sur le robot et dans le docker est de base à 30 mais vous pouvez le modifier.
+Lorsque votre robot est directement connecté à votre réseau vous pouvez directement le tester aussi sur le robot vu que foxy utilise du ddsfastest(multicast).
+La variable ROS_HOSTNAME sur le robot et dans le docker est de base à 30 mais vous pouvez la modifier.
 Pour le robot dans le fichier ~/.bashrc.
-pour verifier la varible ```echo $ROS_HOSTNAME```
-Et dans le docker dans le dockerfile ligne 16: ENV ROS_DOMAIN_ID=30
+Pour vérifier la variable ```echo $ROS_HOSTNAME```
+Et dans le docker pour modifier cette variable il suffit de modifier la ligne 16 dans le dockerfile: ENV ROS_DOMAIN_ID=30
 
+### Github action
 
-Il existe deux branch dans ce projet le main qui pour la publication
-et le test qui est la vérification. Lorsque un code est push sur l'un de c'est deux topic les action github ce trouvans dans le dosier
-.github\workflows sont executer.
-github-action-build.yml pour le push sur le main.
-et github-actions-test.yml pour un push sur la branch test.
+Il existe deux branches dans ce projet la branche main qui est pour la publication et la branche test qui est pour tester le projet. Lorsqu'un code est push sur l'une de ces deux branches les actions github se trouvant dans le dossier .github\workflows sont éxecutées.
+Les actions de github-action-build.yml pour le push sur le main et
+celles de github-actions-test.yml pour un push sur la branche test sont éxecutées.
 
-Si nous regardons c'est gihtub actions de plus près:
-
-### github-action-test branch test
+#### github-action-test branch test
 
 Lorsque vous pushez sur test vous pouvez observer le bilan de Trivy CVES image analyse de l'image docker de votre projet.
-Celle si sont visible si aucun risque High ou Critical. Dans le github du projet sous action séléctioner l'action avec le #numero corréspondant à votre push (souvant le dernier).
-Puis dans 'Test docker image' et l'angle: 'Get Trivy CVES image analyse with securtiy vulnerability for the image' vous avez tous le bilan.
-Si il existe des problème de sécurité reporter HIGH or CRITICAL il est fortment déconseille de push le code sur la branche main !
+Ce bilan est visible dans le github du projet dans l'onglet action où il faut sélectionner l'action avec le #numero correspondant à votre push (souvent le dernier),
+puis dans 'Test docker image' et l'onglet: 'Get Trivy CVES image analyse with securtiy vulnerability for the image'.
+S'il existe des problèmes de sécurité rapportés HIGH or CRITICAL il est fortement déconseillé de push le code sur la branche main !
 
-### github-action-build branch main
-Une des actions est de s'inscrir dans docker hub afin de pouvoir push des image dessus
+#### github-action-build branch main
+
+Une des actions dans le main est de s'inscrire dans docker hub afin de pouvoir push des images dessus
 ```
  - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -110,28 +107,37 @@ Une des actions est de s'inscrir dans docker hub afin de pouvoir push des image 
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 ```
-Il vous serraz nécésaire de creer ces deux secrets sur ce projet dans github
-sous l'angle Settings puis Secrets/variables/actions puis clicker sur a Nex repository secret.
+Il vous sera nécessaire de créer ces deux secrets sur ce projet dans github
+sous l'onglet Settings puis Secrets/variables/actions puis cliquer sur a New repository secret.
 
-par la suite le projet est push sur github à la ligne 49 vous trouvez les tags ou celle si sont push
+Par la suite le projet est push sur github.
+A la ligne 49 vous trouvez les tags sous lesquels cette image est push.
 
 ```
     tags: ${{secrets.DOCKERHUB_USERNAME}}/test:latest, ${{secrets.DOCKERHUB_USERNAME}}/test:${{github.run_number}}
 ```
 
-Si vous modifier c'est tag il serra nécésaire de mettre à jours le push du projet dans le robot pour cella sur le robot:
+Si ces tags sont modifiés il sera nécessaire de mettre à jour le push du projet dans le robot. Pour cela vous pouvez lancer la commande suivante sur le robot :
 ```BASH
 docker pull  [secrets.DOCKERHUB_USERNAME]/[tag name (test)]:latest
 ```
-pour le lancement qu'une ligne à change dans /etc/rc.local (après le first boot de l'image sur la Rapsberry Pi si non rc.local.bak)
-
+Ensuite pour le lancement du conteneur docker qu'une ligne a changé dans /etc/rc.local (après le first boot de l'image sur la Rapsberry Pi sinon rc.local.bak)
 ```
 docker run --rm --name control [secrets.DOCKERHUB_USERNAME]/[tag name (test)]:latest > /home/ubuntu/output.txt 2>&1 &
 ```
+Penser à supprimer les images et conteneurs inutiles pour votre projet puisqu'ils risquent de prendre beaucoup de place.
+```
+docker images
+docker container list
+docker container rm [container name]
+docker image rm [image name]
+```
+
+
 
 
 ## Conclusion
 
-Conclusion votre projet robotique en mode devops pour du turtlebot est près.
-Si vous etes intéréssé à construire un projet ressemblant sur un autre robot ou systeme vous pouvez regarder de plus proche les détaille de créaation image et les fichier turtlebot_temporaire.
-Pour améliorer ce projet il est intérésant de rajouter des test automatique dans le github action branche test et surtous à réussir le lancement ros2 hardwaire sur la Raspberry Pi de maniere automatique. Nous avons ouvert un issue à ce sujet et sont prénon de toute participation.
+Votre projet robotique en mode devops pour du turtlebot est prêt.
+Si vous êtes intéressés à construire un projet ressemblant sur un autre robot ou système vous pouvez regarder de plus près les détails de création image et les fichiers turtlebot_temporaire.
+Pour améliorer ce projet il est intéressant de rajouter des tests automatiques dans le github action branche test et surtout de réussir le lancement ros2 hardwaire sur la Raspberry Pi de manière automatique. Nous avons ouvert une issue à ce sujet et sommes preneurs de toute participation.
