@@ -100,7 +100,7 @@ S'il existe des problèmes de sécurité rapportés HIGH or CRITICAL il est fort
 #### github-action-build branch main
 
 Une des actions dans le main est de s'inscrire dans docker hub afin de pouvoir push des images dessus
-```
+```yaml
  - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -113,7 +113,7 @@ sous l'onglet Settings puis Secrets/variables/actions puis cliquer sur a New rep
 Par la suite le projet est push sur github.
 A la ligne 49 vous trouvez les tags sous lesquels cette image est push.
 
-```
+```yaml
     tags: ${{secrets.DOCKERHUB_USERNAME}}/test:latest, ${{secrets.DOCKERHUB_USERNAME}}/test:${{github.run_number}}
 ```
 
@@ -127,8 +127,8 @@ docker run --rm --name control [secrets.DOCKERHUB_USERNAME]/[tag name (test)]:la
 ```
 Penser à supprimer les images et conteneurs inutiles pour votre projet puisqu'ils risquent de prendre beaucoup de place.
 ```
-docker images
-docker container list
+docker images -a
+docker container ls
 docker container rm [container name]
 docker image rm [image name]
 ```
