@@ -1,0 +1,38 @@
+https://raspberrytips.com/create-image-sd-card/
+
+Linux:
+
+find Device:
+Discs utility
+or
+sudo fdisk -l
+
+vue que carte ssd input sur notre ordinateur:
+
+/dev/mmcblk0
+
+
+creation image:
+
+sudo dd bs=4M if=/dev/mmcblk0 of=/home/matthis/imagecreation/Turtlebot.img status=progress
+
+reduction de taille
+
+https://github.com/Drewsif/PiShrink
+
+
+wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+chmod +x pishrink.sh
+sudo mv pishrink.sh /usr/local/bin
+
+sudo pishrink.sh pi.img
+
+puis zipper
+
+creation ssd card from image:
+
+sudo dd bs=4M if=/home/matthis/imagecreation/TestImage.img of=/dev/mmcblk0 status=progress
+
+ou image reader
+
+
