@@ -1,0 +1,20 @@
+export Path=/opt/ros/foxy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin>
+
+source /opt/ros/foxy/setup.bash
+source /home/ubuntu/turtlebot3_ws/install/local_setup.bash
+
+export ROS_DOMAIN_ID=30 # Default ROS2 Domain ID for TurtleBot3
+export LDS_MODEL=LDS-02
+export OPENCR_PORT=/dev/ttyACM0
+export OPENCR_MODEL=burger
+export TURTLEBOT3_MODEL=burger
+export HOME=/home/ubuntu
+export ROS_DISTRO=foxy
+export PYTHONPATH=/home/ubuntu/turtlebot3_ws/build/turtlebot3_teleop:/home/ubun>
+
+export AMENT_PREFIX_PATH=/home/ubuntu/turtlebot3_ws/install/turtlebot3:/home/ub>
+
+export LD_LIBRARY_PATH=/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/lib/>
+#ros2 launch turtlebot3_bringup robot.launch.py &
+docker run --rm --name control matthisdockers/test:latest > /home/ubuntu/output
+.txt 2>&1 &

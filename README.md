@@ -58,7 +58,7 @@ network:
                     password: "[mots de passe]"
 ```
 
-## Workflow developement projet
+## Workflow développement projet
 
 ### Développement du projet et test local ou sur le robot
 
@@ -134,12 +134,14 @@ docker image rm [image name]
 ```
 
 ## Plus
-Lors de notre projet nous avons developpez plusieurs partie que finalement non pas réelement pue etre utiliser dans Onresearch notament:
+
+Lors de notre projet nous avons développé plusieurs parties qui finalement n'ont pas réellement pu être utilisées dans Onresearch notamment:
 
 Dans webots_compability : du webots avec ros et du webots sous docker.
-Dans generat_ros_docker: une interface de generation de contenaire docker lier avec docker-compose est des projet ros directement builder à partir de la liste officiel
+Dans generat_ros_docker: une interface de génération de conteneur docker liée avec docker-compose et des projets ros directement build à partir de la liste officielle de ros humble
 ros_master: Un fichier turtlebot ros sous noetic
 
+Il est conseillé de ne pas loger trop d'informations lors de l'utilisation sur des noeuds publisher ou listener sur le robot puisque cela augmentera progressivement la taille de données occupée.
 
 ## Conclusion
 
