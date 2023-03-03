@@ -1,7 +1,7 @@
 # FROM arm64v8/ros:foxy
 ARG base=arm64v8/ros:foxy
 FROM $base
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive 
 
 SHELL ["/bin/bash", "-c"]
 
