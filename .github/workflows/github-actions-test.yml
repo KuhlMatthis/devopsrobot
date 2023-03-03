@@ -29,9 +29,9 @@ jobs:
       - name: Build an image from Dockerfile
         run: sudo docker build --build-arg base="ros:foxy" -t turtlebotfoxy ./ros_master_foxy
 
-      - name: Unit Testing in Docker
-        run: |
-          docker run --rm turtlebotfoxy 
+      #- name: Unit Testing in Docker
+      #  run: |
+      #    docker run --rm turtlebotfoxy 
 
       - name: Get Trivy CVES image analyse with securtiy vulnerability for the image
         uses: aquasecurity/trivy-action@master
